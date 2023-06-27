@@ -62,11 +62,11 @@ def normalize_to_target(target_mat, source):
 def run_reinhart(path_in, path_out, target_name=None):
     images_list = os.listdir(path_in)
     if target_name is None:
-        target_name = 'Original image (135).png'
-
-    img_target = io.imread(os.path.join(path_in, target_name))
-
-    target_matrix = matrix_shift(target=img_target)
+        target_matrix = np.array([[54.25261297, 2.15305799, -11.91262751], [13.55046099, 2.98115212, 5.87949885]])
+        # target_name = 'Original image (135).png'
+    else:
+        img_target = io.imread(os.path.join(path_in, target_name))
+        target_matrix = matrix_shift(target=img_target)
 
     for file_name in images_list:
         img_path = os.path.join(path_in, file_name)
