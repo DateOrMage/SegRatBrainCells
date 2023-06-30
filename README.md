@@ -22,8 +22,8 @@ trained_models - trained models only U-Net 3-16 and 3-32 because file more then 
 requirements.txt - file with python libs, witch have to install
 
 Install python libs with pip:
-'''bash
+```bash
 pip install requirements.txt
-'''
+```
 
 ## Order for training models
