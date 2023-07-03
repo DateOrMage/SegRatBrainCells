@@ -26,4 +26,8 @@ Install python libs with pip:
 pip install requirements.txt
 ```
 
+## Prepeared data before training
+First of all we have to prepeared mask from labeled images. There is python script "pp_mask.py" in directory "0_preprocessing". Run the script with changed paths to getting masks
+
+
 ## Order for training models
