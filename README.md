@@ -34,10 +34,19 @@ First of all we have to prepeared mask from labeled images. There is python scri
 59                path_out='path\\to\\directory\\where\\save\\mask images')
 ```
 Next step is stain-normilization original images. It is optional performance. Choise reinhart or vahadane or nothing.
+
 If reinhart is choisen:
 ```bash
-
-
+84 if __name__ == '__main__':
+85    run_reinhart(path_in='path\\to\\original\\image',
+86                 path_out='path\\to\\save\\dir')
+```
+If vahadane is chosen:
+```bash
+32 if __name__ == '__main__':
+33    run_vahadane(path_in='path\\to\\original\\image',
+34                 path_out='path\\to\\save\\dir')
+```
 
 
 
