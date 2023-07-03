@@ -75,44 +75,66 @@ Last step is augmentation, used for images and masks. Run the augmentation.py:
 
 After all steps we have to have prepared images for training and them masks.
 
-## Order for training models
+## Training
 First of all have to check "torch_config.py" for change training's parameters.
 ```bash
 import torch
 import os
 
-DATASET_PATH = 'C:\\Users\\Пользователь\\Desktop\\SegRatBrainCells\\Init_All dataset\\StainData'
+DATASET_PATH = 'C:\\Users\\Пользователь\\Desktop\\SegRatBrainCells\\Init_All dataset\\StainData'  # path to directory with prepared images and masks
 
-IMAGE_PATH = os.path.join(DATASET_PATH, 'PP_train_images_all')
-MASK_PATH = os.path.join(DATASET_PATH, 'PP_train_masks_all')
+IMAGE_PATH = os.path.join(DATASET_PATH, 'PP_train_images_all')  # add path to prepared images
+MASK_PATH = os.path.join(DATASET_PATH, 'PP_train_masks_all')  # add path to prepared masks
 
-TEST_SPLIT = 0.20
+TEST_SPLIT = 0.20  # persent of all data to validation samples 
 
-BATCH_SIZE = 32
-NUM_EPOCHS = 300  # 300
-EPOCHS_NO_IMPROVE = 10
+BATCH_SIZE = 32  # number of images in 1 batch
+NUM_EPOCHS = 300  # max number of epochs
+EPOCHS_NO_IMPROVE = 10  # number of epochs before early stopping
 
-SEED_COUNTER = 1
+SEED_COUNTER = 1  # number of starting with random seed (1 is prefer)
 
-CNN_DEPTH = [4]  # [3, 4, 5, 6, 7, 8, 9]
-FIRST_CHANNELS = [32]  # [32, 64]
-BATCH_NORM = [True]
-DROP_OUT = [True]
+CNN_DEPTH = [4]  # depth of U-Net (number of encoder/decoder blocks)
+FIRST_CHANNELS = [32]  # number of conv_kernel in first encoder block
+BATCH_NORM = [True]  # add BatchNormalization2d layers or not
+DROP_OUT = [True]  # add Dropout(p=0.3) layers or not
 
-OPTIMIZER = 'Adam'  # SGD, RMSprop
-AMSGRAD = [False]  # [False, True]
-LR = [0.001]  # [1, 0.5, 0.1, 0.05, 0.01, 0.005, 0.001, 0.0005, 0.0001]
-MOMENT = [(0.9, 0.999)]  # [(0.9, 0.99), (0.9, 0.999), (0.9, 0.9999)]
-WEIGHT_DECAY = [0]  # [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0]
+OPTIMIZER = 'Adam'  # SGD, RMSprop (Adam is prefer)
+AMSGRAD = [False]  # [False, True]  # (False is prefer) 
+LR = [0.001]  # learning rate
+MOMENT = [(0.9, 0.999)]  # betas
+WEIGHT_DECAY = [0]  # L2 penalty (0 is prefer)
 
-IS_SAVE = True
-BASE_OUTPUT = 'output'
-MODEL_NAME = 'unet_Adam_all_data.pth'
-PATH_OUTPUT = os.path.join(DATASET_PATH, BASE_OUTPUT)
+IS_SAVE = True  # save model after training or not
+BASE_OUTPUT = 'output'  # output path
+MODEL_NAME = 'unet_Adam_all_data.pth'  # basic name of model
+PATH_OUTPUT = os.path.join(DATASET_PATH, BASE_OUTPUT)  # path to save history of train/valid loss function
 MODEL_OUTPUT = os.path.join(DATASET_PATH, BASE_OUTPUT, MODEL_NAME)
 
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"  # choise gpu if cuda there is, else cpu
 PIN_MEMORY = True if DEVICE == "cuda" else False
+```
+For start training run "torch_training.py":
+```bash
+297 if __name__ == '__main__':
+298     hyper_best_dict, hyper_total_dict, history_train = grid_search_adam()
+```
+
+## Prediction
+For evalution trained model have to use "torch_predict.py". For succesfully prediction must have prepeared images and trained model. If you want to get compare with true masks, you have to have prepeared masks.
+```bash
+111 if __name__ == '__main__':
+112
+113     predict(
+114         image_path="path\\to\\prepeared\\images",
+115         mask_path="path\\to\\prepeared\\masks",
+116         model_path='iunet4_32_BN_DO_Adam_stain_reinhard.pth', # path to model
+117         out_path="C:\\Users\\Пользователь\\Desktop\\SegRatBrainCells\\Init_All dataset\\StainData\\output_all_4_32_reinhard",
+118         is_save_double=True, # save double image (original mask + predicted) or not
+119         is_metric=True)  # print metric or not
+120     # you can predict only 1 images without save and comparing
+121     # pred_one_file("C:\\Users\\Пользователь\\Desktop\\SegRatBrainCells\\Init_All dataset\\Cell images ver4\\PP_test_images\\Original image (1)_cut_1_left_right.png",
+122                   # 'unet3_32_BN_DO_Adam_grad_0_001_torch_all.pth')
 ```
 
 
