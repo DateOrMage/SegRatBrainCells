@@ -27,7 +27,31 @@ pip install requirements.txt
 ```
 
 ## Prepeared data before training
-First of all we have to prepeared mask from labeled images. There is python script "pp_mask.py" in directory "0_preprocessing". Run the script with changed paths to getting masks
+First of all we have to prepeared mask from labeled images. There is python script "pp_mask.py" in directory "0_preprocessing". Run the script with changed paths to getting masks:
+```bash
+57 if __name__ == '__main__':
+58    run_pp_mask(path_in='path\\to\\directory\\with\\labeled images',
+59                path_out='path\\to\\directory\\where\\save\\mask images')
+```
+Next step is stain-normilization original images. It is optional performance. Choise reinhart or vahadane or nothing.
+If reinhart is choisen:
+```bash
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## Order for training models
